@@ -203,7 +203,7 @@
       <section class="section-50 section-md-75 section-md-100 section-lg-120 section-xl-150 bg-wild-sand">
         <div class="container text-left">
           <h2><span class="small">Contáctanos</span>¿Tienes alguna pregunta? Llena el formulario y te responderemos de inmediato. </h2>
-          <form class="text-left" action="https://formspree.io/f/xnpndnyp" method="POST">
+          <form id="contact-form" class="text-left" action="https://formspree.io/f/xnpndnyp" method="POST">
             <div class="row row-20 offset-top-40 offset-md-top-60">
               <div class="col-xl-4 col-lg-6">
                 <div class="form-wrap postfix-xl-right-40">
@@ -314,6 +314,48 @@
       </footer>
     </div>
     <div class="snackbars" id="form-output-global"></div>
+
+    
+<script>
+
+  //para el envio inteligente de los formularios protegido con un DOM para que cargue hasta que la pagina se cargue por completo
+  document.addEventListener("DOMContentLoaded", function() {
+    var form = document.getElementById("contact-form");
+    
+    if (form) {
+      async function handleSubmit(event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        
+        fetch(event.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+              'Accept': 'application/json'
+          }
+        }).then(response => {
+          if (response.ok) {
+            alert("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+            form.reset(); // Limpia los campos automáticamente
+          } else {
+            response.json().then(data => {
+              if (Object.hasOwn(data, 'errors')) {
+                alert(data["errors"].map(error => error["message"]).join(", "));
+              } else {
+                alert("Oops! Hubo un problema al enviar tu formulario.");
+              }
+            })
+          }
+        }).catch(error => {
+          alert("Oops! Hubo un error de conexión.");
+        });
+      }
+      
+      form.addEventListener("submit", handleSubmit);
+    }
+  });
+</script>
+    
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
   </body>
