@@ -1,102 +1,75 @@
 <?php
+// Ocultar avisos para proteger la respuesta AJAX
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+ini_set('display_errors', '0');
 
-$recipients = 'test@demolink.com';
+// 1. Importar las clases necesarias de PHPMailer 6
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-try {
-    require './phpmailer/PHPMailerAutoload.php';
+// 2. Requerir los archivos desde la nueva subcarpeta 'phpmailer/'
+// Requerir los archivos apuntando correctamente a la subcarpeta 'phpmailer/'
+require 'phpmailer/Exception.php';
+require 'phpmailer/PHPMailer.php';
+require 'phpmailer/SMTP.php';
 
-    preg_match_all("/([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/", $recipients, $addresses, PREG_OFFSET_CAPTURE);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Capturar y limpiar los datos
+    $nombre  = strip_tags(trim($_POST["name"] ?? ''));
+    $email   = filter_var(trim($_POST["email"] ?? ''), FILTER_SANITIZE_EMAIL);
+    $empresa = strip_tags(trim($_POST["company"] ?? ''));
+    $asunto  = strip_tags(trim($_POST["subject"] ?? ''));
+    $mensaje = strip_tags(trim($_POST["message"] ?? ''));
 
-    if (!count($addresses[0])) {
-        die('MF001');
+    if (empty($nombre) || empty($email) || empty($mensaje) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo "MF255";
+        exit;
     }
 
-    if (preg_match('/^(127\.|192\.168\.)/', $_SERVER['REMOTE_ADDR'])) {
-        die('MF002');
+    // 3. Instanciar PHPMailer usando el Namespace
+    $mail = new PHPMailer(true);
+
+    try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';     // Cambia por tu servidor SMTP
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'openlotus.sv@gmail.com';  // Tu usuario SMTP
+        $mail->Password   = 'qszp izbz xvgf ldpz';  // Tu contraseña
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Estándar moderno para TLS (o PHPMailer::ENCRYPTION_SMTPS para 465)
+        $mail->Port       = 587;                       
+
+        // Remitente y Destinatario
+        $mail->setFrom('openlotus.sv@gmail.com', 'Formulario Web - Open Lotus');
+        $mail->addAddress('laura.escobar9491@gmail.com', 'Soporte Open Lotus'); 
+        $mail->addReplyTo($email, $nombre);            
+
+        // Contenido del correo
+        $mail->isHTML(true);
+        $mail->Subject = "Nuevo mensaje de contacto: " . $asunto;
+        
+        $cuerpoHtml = "<h3>Detalles de la solicitud de contacto:</h3>";
+        $cuerpoHtml .= "<p><b>Nombre:</b> {$nombre}</p>";
+        $cuerpoHtml .= "<p><b>Correo Electrónico:</b> {$email}</p>";
+        $cuerpoHtml .= "<p><b>Empresa:</b> {$empresa}</p>";
+        $cuerpoHtml .= "<p><b>Asunto:</b> {$asunto}</p>";
+        $cuerpoHtml .= "<p><b>Mensaje:</b><br>{$mensaje}</p>";
+
+        $mail->Body    = $cuerpoHtml;
+        $mail->AltBody = "Nombre: {$nombre}\nCorreo: {$email}\nEmpresa: {$empresa}\nAsunto: {$asunto}\nMensaje:\n{$mensaje}";
+
+        // Enviar
+        $mail->send();
+        
+        http_response_code(200);
+        echo "MF000"; // Código de éxito para tu JS
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo "MF254"; // Código de error para tu JS
     }
-
-    $template = file_get_contents('rd-mailform.tpl');
-
-    if (isset($_POST['form-type'])) {
-        switch ($_POST['form-type']){
-            case 'contact':
-                $subject = 'A message from your site visitor';
-                break;
-            case 'subscribe':
-                $subject = 'Subscribe request';
-                break;
-            case 'order':
-                $subject = 'Order request';
-                break;
-            default:
-                $subject = 'A message from your site visitor';
-                break;
-        }
-    }else{
-        die('MF004');
-    }
-
-    if (isset($_POST['email'])) {
-        $template = str_replace(
-            array("<!-- #{FromState} -->", "<!-- #{FromEmail} -->"),
-            array("Email:", $_POST['email']),
-            $template);
-    }else{
-        die('MF003');
-    }
-
-    if (isset($_POST['message'])) {
-        $template = str_replace(
-            array("<!-- #{MessageState} -->", "<!-- #{MessageDescription} -->"),
-            array("Message:", $_POST['message']),
-            $template);
-    }
-
-    preg_match("/(<!-- #{BeginInfo} -->)(.|\n)+(<!-- #{EndInfo} -->)/", $template, $tmp, PREG_OFFSET_CAPTURE);
-    foreach ($_POST as $key => $value) {
-        if ($key != "email" && $key != "message" && $key != "form-type" && !empty($value)){
-            $info = str_replace(
-                array("<!-- #{BeginInfo} -->", "<!-- #{InfoState} -->", "<!-- #{InfoDescription} -->"),
-                array("", ucfirst($key) . ':', $value),
-                $tmp[0][0]);
-
-            $template = str_replace("<!-- #{EndInfo} -->", $info, $template);
-        }
-    }
-
-    $template = str_replace(
-        array("<!-- #{Subject} -->", "<!-- #{SiteName} -->"),
-        array($subject, $_SERVER['SERVER_NAME']),
-        $template);
-
-    $mail = new PHPMailer();
-    $mail->From = $_POST['email'];
-
-    # Attach file
-    if (isset($_FILES['file']) &&
-        $_FILES['file']['error'] == UPLOAD_ERR_OK) {
-        $mail->AddAttachment($_FILES['file']['tmp_name'],
-                             $_FILES['file']['name']);
-    }
-
-    if (isset($_POST['name'])){
-        $mail->FromName = $_POST['name'];
-    }else{
-        $mail->FromName = "Site Visitor";
-    }
-
-    foreach ($addresses[0] as $key => $value) {
-        $mail->addAddress($value[0]);
-    }
-
-    $mail->CharSet = 'utf-8';
-    $mail->Subject = $subject;
-    $mail->MsgHTML($template);
-    $mail->send();
-
-    die('MF000');
-} catch (phpmailerException $e) {
-    die('MF254');
-} catch (Exception $e) {
-    die('MF255');
+} else {
+    http_response_code(403);
+    echo "MF255";
 }
