@@ -9,7 +9,7 @@
     <link rel="icon" href="images/faviconn.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:400,500,700%7CNoto+Sans:400,700">
     <link rel="stylesheet" href="css/style.css">
-    <style>
+   <style>
       .ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} 
       html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}
 
@@ -24,6 +24,26 @@
           pointer-events: auto !important;
           z-index: 10;
           position: relative;
+      }
+
+      /* Corrección definitiva para eliminar la franja/borde gris entre el slider y la sección */
+      .swiper-container, .swiper-slider {
+          border: none !important;
+          border-bottom: none !important;
+          box-shadow: none !important;
+          margin-bottom: 0 !important;
+          background-color: transparent !important;
+      }
+
+      .swiper-container::after, .swiper-slider::after,
+      .swiper-container::before, .swiper-slider::before {
+          display: none !important;
+          content: none !important;
+      }
+
+      .swiper-slider + section {
+          border-top: none !important;
+          margin-top: 0 !important;
       }
 
       .custom-way-point-swiper, .custom-way-point {
