@@ -9,6 +9,7 @@
     <link rel="icon" href="images/faviconn.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:400,500,700%7CNoto+Sans:400,700">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="images/home-03-slide-01-optimized.jpg">
    <style>
       .ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} 
       html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}
@@ -52,6 +53,10 @@
           right: auto !important;
           text-align: center !important;
       }
+
+        .desktop .bg-image-fixed {
+          background-attachment: scroll;
+        }
     </style>
   </head>
   <body>
@@ -150,9 +155,9 @@
           </nav>
         </div>
       </header>
-      <div class="swiper-container swiper-slider swiper-secondary" data-autoplay="3500" data-height="100vh" data-min-height="300px">
+      <div class="swiper-container swiper-slider swiper-secondary" data-autoplay="3500" data-slide-speed="450" data-height="100vh" data-min-height="300px">
         <div class="swiper-wrapper text-center">
-          <div class="swiper-slide" data-slide-bg="images/home-03-slide-01.jpg">
+          <div class="swiper-slide" data-slide-bg="images/home-03-slide-01-optimized.jpg">
             <div class="swiper-slide-caption">
               <div class="container">
                 <div class="row section-100-vh align-items-sm-center justify-content-sm-center">
@@ -165,7 +170,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-slide" data-slide-bg="images/home-02-slide-01.jpg">
+          <div class="swiper-slide" data-slide-bg="images/home-02-slide-01-optimized.jpg">
             <div class="swiper-slide-caption">
               <div class="container">
                 <div class="row section-100-vh align-items-sm-center justify-content-sm-center">
@@ -178,7 +183,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-slide" data-slide-bg="images/home-01-slide-01.jpg">
+          <div class="swiper-slide" data-slide-bg="images/home-01-slide-01-optimized.jpg">
             <div class="swiper-slide-caption">
               <div class="container">
                 <div class="row section-100-vh align-items-sm-center justify-content-sm-center">

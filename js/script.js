@@ -340,7 +340,7 @@
 					if (delay) {
 						setTimeout(tempFunction(nextSlideItem, duration), parseInt(delay, 10));
 					} else {
-						tempFunction(nextSlideItem, duration);
+						tempFunction(nextSlideItem, duration)();
 					}
 
 				} else {
@@ -614,10 +614,11 @@
 				.end();
 
 				s.swiper({
-					autoplay: !isNoviBuilder && $.isNumeric(s.attr('data-autoplay')) ? s.attr('data-autoplay') : false,
+					autoplay: !isNoviBuilder && $.isNumeric(s.attr('data-autoplay')) ? parseInt(s.attr('data-autoplay'), 10) : false,
 					direction: s.attr('data-direction') ? s.attr('data-direction') : "horizontal",
 					effect: s.attr('data-slide-effect') ? s.attr('data-slide-effect') : "slide",
-					speed: s.attr('data-slide-speed') ? s.attr('data-slide-speed') : 600,
+					speed: s.attr('data-slide-speed') ? parseInt(s.attr('data-slide-speed'), 10) : 600,
+					autoplayDisableOnInteraction: false,
 					keyboardControl: s.attr('data-keyboard') === "true",
 					mousewheelControl: s.attr('data-mousewheel') === "true",
 					mousewheelReleaseOnEdges: s.attr('data-mousewheel-release') === "true",
@@ -635,15 +636,11 @@
 					simulateTouch: s.attr('data-simulate-touch') && !isNoviBuilder ? s.attr('data-simulate-touch') === "true" : false,
 					onTransitionStart: function (swiper) {
 						toggleSwiperInnerVideos(swiper);
-					},
-					onTransitionEnd: function (swiper) {
 						toggleSwiperCaptionAnimation(swiper);
 					},
-					// onInit: function (swiper) {
-					// 	toggleSwiperInnerVideos(swiper);
-					// 	toggleSwiperCaptionAnimation(swiper);
-					// 	initLightGalleryItem(s.find('[data-lightgallery="item"]'), 'lightGallery-in-carousel');
-					// }
+					onInit: function (swiper) {
+						toggleSwiperCaptionAnimation(swiper);
+					}
 				});
 
 				$window.on("resize", (function (s) {
