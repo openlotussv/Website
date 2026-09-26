@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" rx="14" fill="#0d0d11"/>
+  <rect x="150" y="30" width="500" height="400" rx="12" fill="#ffffff"/>
+  <rect x="150" y="30" width="500" height="64" rx="12" fill="#f1f1f4"/>
+  <rect x="150" y="80" width="500" height="14" fill="#f1f1f4"/>
+  <rect x="180" y="48" width="220" height="14" rx="7" fill="#33333d"/>
+  <rect x="180" y="68" width="140" height="9" rx="4.5" fill="#8a8a95"/>
+  <circle cx="610" cy="62" r="22" fill="none" stroke="#1f7a44" stroke-width="5"/>
+  <path d="M600 62 l7 7 l13 -14" stroke="#1f7a44" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <rect x="180" y="112" width="120" height="10" rx="5" fill="#33333d"/>
+  <rect x="180" y="128" width="440" height="9" rx="4.5" fill="#b9b9c2"/>
+  <rect x="180" y="142" width="440" height="9" rx="4.5" fill="#b9b9c2"/>
+  <rect x="180" y="156" width="300" height="9" rx="4.5" fill="#b9b9c2"/>
+  <rect x="180" y="180" width="120" height="10" rx="5" fill="#33333d"/>
+  <rect x="180" y="196" width="200" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="390" y="196" width="80" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="480" y="196" width="140" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="180" y="218" width="200" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="390" y="218" width="80" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="480" y="218" width="140" height="16" rx="4" fill="#e8e8ee"/>
+  <rect x="180" y="248" width="120" height="10" rx="5" fill="#33333d"/>
+  <rect x="480" y="244" width="140" height="16" rx="8" fill="#ff6b00"/>
+  <rect x="180" y="272" width="120" height="10" rx="5" fill="#33333d"/>
+  <rect x="440" y="268" width="180" height="16" rx="8" fill="#1f7a44"/>
+  <rect x="180" y="300" width="440" height="9" rx="4.5" fill="#b9b9c2"/>
+  <rect x="180" y="314" width="440" height="9" rx="4.5" fill="#b9b9c2"/>
+  <rect x="180" y="340" width="200" height="34" rx="8" fill="#0d0d11"/>
+  <rect x="200" y="352" width="120" height="10" rx="5" fill="#ff6b00"/>
+  <text x="400" y="478" text-anchor="middle" font-family="Arial" font-size="15" fill="#8a8a95">Vista de referencia · DTE sellado por Hacienda</text>
+</svg>
