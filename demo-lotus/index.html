@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo interactiva - Lotus System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --ac: #ff7a00;
+      --ac-hover: #e06900;
+      --bg: #0f1014;
+      --surface: #1e1e24;
+      --surface-2: #26262e;
+      --borde: #3a3a48;
+      --texto: #f3f4f6;
+      --muted: #aeb4c2;
+      --ok: #20d9c2;
+    }
+    * { box-shadow: none !important; }
+    html, body { background: var(--bg); }
+    body { color: var(--texto); font-family: 'Segoe UI', Tahoma, sans-serif; }
+    ::placeholder { color: var(--muted) !important; opacity: .85 !important; }
+
+    .demo-card { background: var(--surface); border: 1px solid var(--borde); border-radius: 14px; color: var(--texto); }
+    .demo-card h1, .demo-card h2, .demo-card h3, .demo-card h4,
+    .demo-card h5, .demo-card h6, .demo-card strong { color: var(--texto); }
+    .demo-card small, .demo-card p { color: var(--muted); }
+    .demo-card p strong, .demo-card small strong { color: var(--texto); }
+
+    .btn-ac { background: var(--ac); border: 0; color: #fff; font-weight: 700; }
+    .btn-ac:hover, .btn-ac:focus { background: var(--ac-hover); color: #fff; }
+    .btn-ghost { background: transparent; border: 1px solid var(--borde); color: var(--texto); }
+    .btn-ghost:hover { border-color: var(--ac); color: var(--ac); }
+
+    .form-control, .form-select { background: var(--surface-2) !important; border-color: var(--borde) !important; color: var(--texto) !important; }
+    .form-control:focus, .form-select:focus { border-color: var(--ac) !important; color: var(--texto) !important; }
+    .input-group-text { background: var(--surface-2) !important; border-color: var(--borde) !important; color: var(--muted) !important; }
+
+    .nav-mod { cursor: pointer; border-radius: 10px; padding: 10px 14px; color: var(--muted); font-weight: 600; border: 1px solid transparent; }
+    .nav-mod:hover { background: rgba(255,122,0,.12); color: var(--texto); }
+    .nav-mod.active { background: var(--ac); color: #fff; }
+    .nav-mod.active i { color: #fff; }
+    .nav-mod i { color: var(--ac); }
+
+    .prod { background: var(--surface); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 6px; text-align: center; cursor: pointer; height: 100%; transition: transform .12s ease, border-color .12s ease; }
+    .prod:hover { border-color: var(--ac); transform: translateY(-2px); }
+    .prod i { font-size: 26px; color: var(--ac); }
+    .prod .nm { color: var(--texto); }
+    .prod .p { color: var(--ok); font-weight: 700; }
+
+    /* Tablas: sin fondos blancos, paleta del sistema */
+    .table { --bs-table-bg: transparent; --bs-table-color: var(--texto); color: var(--texto); border-color: var(--borde); margin-bottom: 0; }
+    .table thead th { background: var(--surface-2) !important; color: var(--texto) !important; border-color: var(--borde) !important; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
+    .table tbody td, .table tbody th { background: transparent !important; color: var(--texto) !important; border-color: var(--borde) !important; }
+    .table tbody td small, .table tbody td span { color: var(--muted); }
+    .table tbody td strong { color: var(--texto); }
+    .table-hover tbody tr:hover td { background: rgba(255,122,0,.08) !important; color: var(--texto) !important; }
+    .table-responsive { border-radius: 0 0 14px 14px; }
+
+    .text-secondary, .text-muted { color: var(--muted) !important; }
+
+    .kpi small { color: var(--muted); letter-spacing: .05em; font-size: .7rem; }
+    .kpi h4 { color: var(--texto); }
+
+    #demo-login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(600px 300px at 50% -50px, rgba(255,122,0,.18), transparent), var(--bg); }
+    .login-logo { width: 56px; height: 56px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--ac), #ffb35c); font-size: 28px; color: #fff; }
+
+    /* Modal: cromado oscuro del sistema; el ticket es papel interior */
+    .modal-content.demo-modal { background: var(--surface); border: 1px solid var(--borde); color: var(--texto); border-radius: 14px; }
+    .modal-content.demo-modal .modal-header, .modal-content.demo-modal .modal-footer { border-color: var(--borde); }
+    .ticket-paper { background: #fff; color: #111; border-radius: 8px; font-size: .85rem; }
+    .ticket-paper .text-muted, .ticket-paper .small.text-muted { color: #6b7280 !important; }
+
+    #ribbonVolver { position: fixed; bottom: 12px; right: 12px; z-index: 50; background: rgba(30,30,36,.92); border: 1px solid var(--borde); border-radius: 20px; padding: 6px 14px; font-size: .75rem; color: var(--muted); }
+    #ribbonVolver a { color: var(--ac); text-decoration: none; font-weight: 700; }
+    .topbar-demo { background: var(--surface); border: 1px solid var(--borde); border-radius: 14px; }
+    @media print { body * { visibility: hidden; } .ticket-paper, .ticket-paper * { visibility: visible; } .ticket-paper { position: absolute; top: 0; left: 0; width: 100%; } }
+  </style>
+</head>
+<body>
+
+<div id="demo-login">
+  <div class="card demo-card p-4 text-center" style="max-width:360px;width:100%;">
+    <div><span class="login-logo"><i class="bi bi-lightning-charge-fill"></i></span></div>
+    <h4 class="fw-bold mt-3" style="color:var(--texto);">OPEN <span style="color:var(--ac);">LOTUS</span></h4>
+    <p class="small">Demo interactiva con datos de ejemplo (nada es real)</p>
+    <button class="btn btn-ac w-100" onclick="entrar()">ENTRAR A LA DEMO</button>
+    <p class="small mt-3 mb-0">Sin usuario ni contraseña · solo exploración</p>
+  </div>
+</div>
+
+<div id="demo-app" class="d-none">
+  <div class="container-fluid py-3">
+    <div class="topbar-demo d-flex align-items-center justify-content-between px-3 py-2 mb-3">
+      <div class="fw-bold">OPEN <span style="color:var(--ac);">LOTUS</span> <small style="color:var(--muted);">demo</small></div>
+      <small style="color:var(--muted);"><i class="bi bi-info-circle me-1"></i>Datos ficticios de demostración</small>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-md-3 col-xl-2">
+        <div class="card demo-card p-2 position-sticky" style="top:12px;">
+          <div class="nav-mod active" onclick="ver('pos',this)"><i class="bi bi-lightning-charge me-2"></i>Punto de Venta</div>
+          <div class="nav-mod" onclick="ver('caja',this)"><i class="bi bi-cash-register me-2"></i>Caja y Arqueos</div>
+          <div class="nav-mod" onclick="ver('clientes',this)"><i class="bi bi-people me-2"></i>Clientes</div>
+          <div class="nav-mod" onclick="ver('inventario',this)"><i class="bi bi-box-seam me-2"></i>Inventario</div>
+          <div class="nav-mod" onclick="location.reload()"><i class="bi bi-box-arrow-right me-2"></i>Salir</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-9 col-xl-10">
+
+        <div id="v-pos" class="row g-3">
+          <div class="col-12 col-lg-7">
+            <div class="input-group mb-2"><span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input id="d-buscar" class="form-control" placeholder="Buscar producto..." oninput="pintarProds()"></div>
+            <div id="d-grid" class="row g-2"></div>
+          </div>
+          <div class="col-12 col-lg-5">
+            <div class="card demo-card p-3">
+              <h6 class="fw-bold">Cuenta actual</h6>
+              <div id="d-lineas" style="max-height:220px;overflow-y:auto;"></div>
+              <hr style="border-color:var(--borde);">
+              <div class="d-flex justify-content-between small"><span style="color:var(--muted);">Subtotal</span><span id="d-sub">$0.00</span></div>
+              <div class="d-flex justify-content-between small"><span style="color:var(--muted);">IVA incluido</span><span id="d-iva">$0.00</span></div>
+              <div class="d-flex justify-content-between align-items-center mt-1"><strong>TOTAL</strong><strong id="d-total" class="fs-3" style="color:var(--ok);">$0.00</strong></div>
+              <button class="btn btn-ac w-100 mt-2" onclick="cobrar()">COBRAR</button>
+              <button class="btn btn-ghost w-100 mt-2" onclick="carrito={};totales()">Limpiar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="v-caja" class="d-none">
+          <div class="row g-3 mb-3">
+            <div class="col-4"><div class="card demo-card kpi p-3 text-center"><small>VENTAS HOY</small><h4 class="fw-bold">$184.50</h4></div></div>
+            <div class="col-4"><div class="card demo-card kpi p-3 text-center"><small>ESPERADO EFECTIVO</small><h4 class="fw-bold">$179.75</h4></div></div>
+            <div class="col-4"><div class="card demo-card kpi p-3 text-center"><small>DIFERENCIA</small><h4 class="fw-bold" style="color:var(--ok);">$0.00</h4></div></div>
+          </div>
+          <div class="card demo-card p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle text-center">
+            <thead><tr><th>Turno</th><th>Cajero</th><th>Ventas</th><th>Esperado</th><th>Estado</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>#3</strong></td><td>Laura <small>(demo)</small></td><td>$184.50</td><td>$179.75</td><td><span class="badge" style="background:var(--ok);color:#06251f;">ABIERTA</span></td>
+                <td><button class="btn btn-sm btn-ghost" onclick="alert('En la demo el arqueo es de muestra.')">Arqueo</button></td></tr>
+              <tr><td><strong>#2</strong></td><td>Carlos <small>(demo)</small></td><td>$82.85</td><td>$102.85</td><td><span class="badge" style="background:var(--surface-2);border:1px solid var(--borde);color:var(--muted);">CERRADA</span></td>
+                <td><button class="btn btn-sm btn-ghost" onclick="alert('En la demo el corte es de muestra.')">Ver corte</button></td></tr>
+            </tbody>
+          </table></div></div>
+        </div>
+
+        <div id="v-clientes" class="d-none">
+          <div class="input-group mb-3" style="max-width:360px;"><span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input id="d-buscar-cli" class="form-control" placeholder="Buscar cliente..." oninput="pintarClientes()"></div>
+          <div class="card demo-card p-0"><div class="table-responsive"><table class="table table-hover mb-0 align-middle">
+            <thead><tr><th>Nombre</th><th>Documento</th><th>Teléfono</th></tr></thead>
+            <tbody id="d-tcli"></tbody>
+          </table></div></div>
+          <p class="small mt-2"><i class="bi bi-shield-check me-1"></i>Todos los nombres y documentos son inventados para la demo.</p>
+        </div>
+
+        <div id="v-inventario" class="d-none">
+          <div class="input-group mb-3" style="max-width:360px;"><span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input id="d-buscar-ins" class="form-control" placeholder="Buscar insumo..." oninput="pintarInsumos()"></div>
+          <div id="d-grid-ins" class="row g-3"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="dModalTicket" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content demo-modal">
+      <div class="modal-header"><strong>Ticket de muestra</strong><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><div class="ticket-paper p-3" id="d-ticket"></div></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-ac" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ribbonVolver">Demo con datos ficticios · <a href="../site/" target="_top">Volver al sitio</a></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // La cinta "Volver al sitio" solo tiene sentido a pantalla completa:
+  // dentro del iframe del sitio se oculta para no abrir el sitio embebido.
+  if (window.self !== window.top) {
+    document.getElementById('ribbonVolver').style.display = 'none';
+  }
+  const $ = id => document.getElementById(id);
+  const money = n => '$' + Number(n || 0).toFixed(2);
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
+  const PRODS = [
+    { id: 1, nombre: 'Pupusas (3)', precio: 2.25, icono: 'bi-egg-fried' },
+    { id: 2, nombre: 'Soda', precio: 1.00, icono: 'bi-cup-straw' },
+    { id: 3, nombre: 'Desayuno Típico', precio: 3.50, icono: 'bi-egg-fried' },
+    { id: 4, nombre: 'Café Negro', precio: 1.50, icono: 'bi-cup-hot' },
+    { id: 5, nombre: 'Sopa de Gallina', precio: 4.25, icono: 'bi-cup-hot' },
+    { id: 6, nombre: 'Combo Especial', precio: 6.00, icono: 'bi-basket' },
+  ];
+  // Datos 100% ficticios: nombres de ejemplo, documentos y teléfonos no reales.
+  const CLIS = [
+    { nombre: 'Cliente de Ejemplo Uno', doc: 'DUI 00000001-1 (demo)', tel: '7000-0001' },
+    { nombre: 'Cliente de Ejemplo Dos', doc: 'DUI 00000002-2 (demo)', tel: '7000-0002' },
+    { nombre: 'Empresa de Prueba S.A. de C.V.', doc: 'NIT 0000-000000-000-0 (demo)', tel: '7000-0003' },
+  ];
+  const INSUMOS = [
+    { nombre: 'Azúcar', stock: 6.00, min: 5.00, unidad: 'Libras (lb)' },
+    { nombre: 'Frijoles', stock: 7.00, min: 5.00, unidad: 'Libras (lb)' },
+    { nombre: 'Café molido', stock: 2.50, min: 3.00, unidad: 'Libras (lb)' },
+    { nombre: 'Queso', stock: 4.00, min: 2.00, unidad: 'Libras (lb)' },
+  ];
+  let carrito = {};
+
+  function entrar() {
+    $('demo-login').classList.add('d-none');
+    $('demo-app').classList.remove('d-none');
+    pintarProds(); pintarClientes(); pintarInsumos(); totales();
+  }
+  function ver(cual, el) {
+    document.querySelectorAll('.nav-mod').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+    ['pos', 'caja', 'clientes', 'inventario'].forEach(v => $('v-' + v).classList.toggle('d-none', v !== cual));
+  }
+  function pintarProds() {
+    const q = $('d-buscar').value.trim().toLowerCase();
+    $('d-grid').innerHTML = PRODS.filter(p => !q || p.nombre.toLowerCase().includes(q)).map(p => `
+      <div class="col-6 col-md-4"><div class="prod" onclick="agregar(${p.id})">
+        <div><i class="bi ${p.icono}"></i></div>
+        <div class="small fw-semibold text-truncate nm">${esc(p.nombre)}</div>
+        <div class="p">${money(p.precio)}</div>
+      </div></div>`).join('') || '<div class="col-12"><p class="small">Sin productos.</p></div>';
+  }
+  function agregar(id) {
+    const p = PRODS.find(x => x.id === id);
+    if (!p) return;
+    carrito[id] = carrito[id] || { ...p, cantidad: 0 };
+    carrito[id].cantidad++;
+    totales();
+  }
+  function cant(id, d) {
+    if (!carrito[id]) return;
+    carrito[id].cantidad += d;
+    if (carrito[id].cantidad <= 0) delete carrito[id];
+    totales();
+  }
+  function totales() {
+    const ls = Object.values(carrito);
+    const sub = ls.reduce((a, l) => a + l.precio * l.cantidad, 0);
+    $('d-lineas').innerHTML = ls.length ? ls.map(l => `
+      <div class="d-flex justify-content-between align-items-center py-1" style="border-bottom:1px solid var(--borde);">
+        <span class="small"><strong>${esc(l.nombre)}</strong> x${l.cantidad}</span>
+        <span class="small">${money(l.precio * l.cantidad)}
+          <button class="btn btn-sm btn-ghost px-1 py-0 ms-1" onclick="cant(${l.id},-1)">−</button>
+          <button class="btn btn-sm btn-ghost px-1 py-0" onclick="cant(${l.id},1)">+</button>
+        </span>
+      </div>`).join('') : '<p class="small">Toca un producto.</p>';
+    $('d-sub').textContent = money(sub);
+    $('d-iva').textContent = money(sub - sub / 1.13);
+    $('d-total').textContent = money(sub);
+    return sub;
+  }
+  function cobrar() {
+    const ls = Object.values(carrito);
+    if (!ls.length) return;
+    const total = totales();
+    $('d-ticket').innerHTML = `
+      <div class="text-center fw-bold">OPEN LOTUS (DEMO)</div>
+      <div class="text-center small text-muted">Ticket de muestra · ${new Date().toLocaleString('es-SV')}</div>
+      <hr>${ls.map(l => `<div>${esc(l.nombre)} x${l.cantidad}<span style="float:right;">${money(l.precio * l.cantidad)}</span></div>`).join('')}<hr>
+      <div class="fw-bold">TOTAL: <span style="float:right;">${money(total)}</span></div>
+      <div class="text-center small text-muted mt-2">¡Gracias por su preferencia!</div>`;
+    new bootstrap.Modal($('dModalTicket')).show();
+    carrito = {};
+    totales();
+  }
+  function pintarClientes() {
+    const q = $('d-buscar-cli').value.trim().toLowerCase();
+    $('d-tcli').innerHTML = CLIS.filter(c => !q || c.nombre.toLowerCase().includes(q)).map(c => `
+      <tr><td><i class="bi bi-person-circle me-2" style="color:var(--ac);"></i><strong>${esc(c.nombre)}</strong></td>
+      <td class="small">${esc(c.doc)}</td><td class="small">${esc(c.tel)}</td></tr>`).join('')
+      || '<tr><td colspan="3">Sin resultados.</td></tr>';
+  }
+  function pintarInsumos() {
+    const q = $('d-buscar-ins').value.trim().toLowerCase();
+    $('d-grid-ins').innerHTML = INSUMOS.filter(i => !q || i.nombre.toLowerCase().includes(q)).map(i => {
+      const bajo = i.stock <= i.min;
+      return `<div class="col-12 col-md-6 col-xl-4"><div class="card demo-card p-3">
+        <div class="d-flex justify-content-between"><strong>${esc(i.nombre)}</strong>
+        <span class="badge" style="${bajo ? 'background:#d9485f;color:#fff;' : 'background:var(--ok);color:#06251f;'}">${i.stock.toFixed(2)}</span></div>
+        <div class="small mt-2">Mínimo: ${i.min.toFixed(2)} · ${esc(i.unidad)}</div>
+        ${bajo ? '<div class="small mt-1" style="color:var(--ac);">¡Reabastecer!</div>' : ''}</div></div>`;
+    }).join('') || '<div class="col-12"><p class="small">Sin resultados.</p></div>';
+  }
+</script>
+</body>
+</html>
