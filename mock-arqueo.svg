@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" rx="14" fill="#0d0d11"/>
+  <rect x="0" y="0" width="800" height="52" rx="14" fill="#141419"/>
+  <rect x="0" y="40" width="800" height="12" fill="#141419"/>
+  <rect x="24" y="18" width="180" height="12" rx="6" fill="#ffffff"/>
+  <rect x="24" y="34" width="120" height="7" rx="3.5" fill="#6c757d"/>
+  <rect x="24" y="68" width="240" height="76" rx="10" fill="#1a1a21"/>
+  <rect x="38" y="80" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="38" y="98" width="150" height="18" rx="6" fill="#ff6b00"/>
+  <rect x="276" y="68" width="240" height="76" rx="10" fill="#1a1a21"/>
+  <rect x="290" y="80" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="290" y="98" width="150" height="18" rx="6" fill="#35c26e"/>
+  <rect x="528" y="68" width="248" height="76" rx="10" fill="#1a1a21"/>
+  <rect x="542" y="80" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="542" y="98" width="150" height="18" rx="6" fill="#3a3a48"/>
+  <rect x="24" y="158" width="752" height="52" rx="10" fill="#23232b"/>
+  <rect x="40" y="170" width="180" height="10" rx="5" fill="#ffffff"/>
+  <rect x="40" y="186" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="600" y="172" width="80" height="22" rx="11" fill="#1f7a44"/>
+  <rect x="688" y="172" width="80" height="22" rx="11" fill="#ff6b00"/>
+  <rect x="24" y="222" width="752" height="52" rx="10" fill="#1a1a21"/>
+  <rect x="40" y="234" width="180" height="10" rx="5" fill="#ffffff"/>
+  <rect x="40" y="250" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="600" y="236" width="80" height="22" rx="11" fill="#1f7a44"/>
+  <rect x="688" y="236" width="80" height="22" rx="11" fill="#ff6b00"/>
+  <rect x="24" y="286" width="752" height="52" rx="10" fill="#1a1a21"/>
+  <rect x="40" y="298" width="180" height="10" rx="5" fill="#ffffff"/>
+  <rect x="40" y="314" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="600" y="300" width="80" height="22" rx="11" fill="#1f7a44"/>
+  <rect x="688" y="300" width="80" height="22" rx="11" fill="#ff6b00"/>
+  <rect x="24" y="350" width="752" height="52" rx="10" fill="#1a1a21"/>
+  <rect x="40" y="362" width="180" height="10" rx="5" fill="#ffffff"/>
+  <rect x="40" y="378" width="120" height="10" rx="5" fill="#6c757d"/>
+  <rect x="600" y="364" width="80" height="22" rx="11" fill="#1f7a44"/>
+  <rect x="688" y="364" width="80" height="22" rx="11" fill="#ff6b00"/>
+  <text x="400" y="478" text-anchor="middle" font-family="Arial" font-size="15" fill="#8a8a95">Vista de referencia · Gestión y arqueos de caja</text>
+</svg>

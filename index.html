@@ -57,6 +57,39 @@
         .desktop .bg-image-fixed {
           background-attachment: scroll;
         }
+
+      /* Legibilidad del texto sobre las fotos del slider:
+         el velo va SOBRE la foto (la imagen se mantiene) y el texto sobre el velo. */
+      .swiper-slider .swiper-slide { position: relative; }
+
+      .swiper-slider .swiper-slide::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(8, 10, 14, .45) 0%, rgba(8, 10, 14, .62) 55%, rgba(8, 10, 14, .74) 100%);
+        z-index: 0;
+      }
+
+      .swiper-slider .swiper-slide .swiper-slide-caption {
+        position: relative;
+        z-index: 2;
+      }
+
+      .swiper-slider .swiper-slide-caption h1,
+      .swiper-slider .swiper-slide-caption .h1,
+      .swiper-slider .swiper-slide-caption h2 {
+        color: #fff;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, .55);
+      }
+
+      .swiper-slider .swiper-slide-caption p,
+      .swiper-slider .swiper-slide-caption .h6 {
+        color: #fff;
+        text-shadow: 0 1px 10px rgba(0, 0, 0, .6);
+      }
     </style>
   </head>
   <body>
@@ -148,6 +181,7 @@
                 <ul class="rd-navbar-nav">
                   <li class="active"><a href="index.html">Inicio</a></li>
                   <li><a href="#sistema">Sistema</a></li>
+                  <li><a href="#tour">Áreas</a></li>
                   <li><a href="#demo">Demo</a></li>
                   <li><a href="#modulos">Módulos</a></li>
                   <li><a href="#planes">Planes</a></li>
@@ -192,9 +226,9 @@
               <div class="container">
                 <div class="row section-100-vh align-items-sm-center justify-content-sm-center">
                   <div class="col-xxl-8 col-md-9" data-caption-animate="fadeInDown" data-caption-delay="200">
-                    <h1 class="text-white">Enfoque secundario: restaurantes</h1>
-                    <p class="h6 offset-top-30">Mesas y comandas, delivery con repartidores, monitor de cocina, inventario de insumos y arqueos de caja que cuadran al centavo.</p>
-                    <div class="group"><a class="btn btn-primary btn-form" href="#modulos">Ver módulos</a><a class="btn btn-dark btn-form" href="contacts.html">Contáctanos</a></div>
+                    <h1 class="text-white">Restaurantes, delivery y tiendas</h1>
+                    <p class="h6 offset-top-30">Mesas y comandas con monitor de cocina, pedidos de delivery con repartidores y tienda de mostrador con escáner: el mismo punto de venta, adaptado a cada área de tu negocio.</p>
+                    <div class="group"><a class="btn btn-primary btn-form" href="#tour">Ver tour del sistema</a><a class="btn btn-dark btn-form" href="contacts.html">Contáctanos</a></div>
                   </div>
                 </div>
               </div>
@@ -290,10 +324,207 @@
         </div>
       </section>
 
+      <!-- Tour guiado por áreas con capturas reales del sistema -->
+      <section class="section-75 section-md-100 section-lg-120" id="tour" style="background:#f5f5f5;">
+        <style>
+          #tour .tour-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+          #tour .tour-tab {
+            border: 1px solid #dcdcdc; background: #fff; color: #4b4b4b; padding: 10px 24px;
+            border-radius: 999px; font-weight: 600; font-size: .95rem; cursor: pointer; transition: .2s;
+          }
+          #tour .tour-tab:hover { border-color: #316ccd; color: #316ccd; }
+          #tour .tour-tab.active { background: #316ccd; border-color: #316ccd; color: #fff; }
+          #tour .tour-pane { display: none; }
+          #tour .tour-pane.active { display: block; }
+          #tour .tour-shot {
+            border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;
+            background: #1e1e22; box-shadow: 0 12px 30px rgba(0,0,0,.12);
+          }
+          #tour .tour-shot-bar { display: flex; gap: 6px; align-items: center; background: #2b2b31; padding: 8px 12px; }
+          #tour .tour-shot-bar i { width: 10px; height: 10px; border-radius: 50%; background: #5a5a63; display: block; }
+          #tour .tour-shot img, #tour .tour-shot a img { width: 100%; height: auto; display: block; }
+          #tour .tour-caption { font-size: .85rem; color: #6f6f6f; margin-top: 10px; }
+          #tour .tour-thumb { display: block; width: 100%; height: auto; border: 1px solid #e0e0e0; border-radius: 8px; background: #1e1e22; transition: box-shadow .2s, transform .2s; }
+          #tour .tour-thumb-link:hover .tour-thumb { box-shadow: 0 10px 24px rgba(0,0,0,.15); transform: translateY(-3px); }
+          #tour .tour-thumb-cap { font-size: .82rem; color: #6f6f6f; margin-top: 8px; }
+          #tour .tour-list { list-style: none; padding: 0; margin: 20px 0 0; }
+          #tour .tour-list li { position: relative; padding-left: 28px; margin-bottom: 14px; }
+          #tour .tour-list li::before { content: "✔"; position: absolute; left: 0; top: 0; color: #316ccd; font-weight: 700; }
+        </style>
+        <div class="container">
+          <h2 class="text-center"><span class="small">Lotus System</span>Recorre el sistema por áreas</h2>
+          <p class="offset-top-20 text-center">Elige un área de trabajo y mira pantallas reales del sistema funcionando con datos de prueba.</p>
+
+          <div class="tour-tabs offset-top-40" id="tourTabs" role="tablist">
+            <button class="tour-tab active" type="button" role="tab" aria-selected="true" data-tour="restaurantes">Restaurantes</button>
+            <button class="tour-tab" type="button" role="tab" aria-selected="false" data-tour="delivery">Delivery</button>
+            <button class="tour-tab" type="button" role="tab" aria-selected="false" data-tour="tiendas">Tiendas</button>
+            <button class="tour-tab" type="button" role="tab" aria-selected="false" data-tour="admin">Administración</button>
+          </div>
+
+          <div class="offset-top-40 text-left" id="tourPanes">
+
+            <div class="tour-pane active" data-tour-pane="restaurantes" role="tabpanel">
+              <div class="row row-30 align-items-center">
+                <div class="col-lg-7">
+                  <div class="tour-shot">
+                    <div class="tour-shot-bar"><i></i><i></i><i></i></div>
+                    <a href="images/tour-mesas.jpg" target="_blank" rel="noopener"><img src="images/tour-mesas.jpg" alt="Mapa de mesas de Lotus System en tiempo real" loading="lazy" width="1200" height="750"></a>
+                  </div>
+                  <p class="tour-caption">Mapa de mesas: estado en tiempo real (disponible, ocupada, cuenta pedida) en un solo vistazo.</p>
+                  <div class="row row-15 offset-top-15">
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-cocina.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-cocina.png" alt="Monitor de comandas en cocina" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Monitor de cocina: comandas pendientes y en preparación</p>
+                    </div>
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-pos.jpg" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-pos.jpg" alt="Cobro rápido desde el punto de venta" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Cobro directo desde el punto de venta</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <h4>Del pedido en mesa hasta la comanda en cocina</h4>
+                  <p>Todo el flujo del restaurante en pantallas conectadas, sin papelitos ni gritos entre salón y cocina.</p>
+                  <ul class="tour-list">
+                    <li><strong>Mapa de mesas</strong> con estado en vivo, cuenta pedida y traslados entre mesas.</li>
+                    <li><strong>Comandas por mesa</strong> con mesero asignado, comentarios del cliente y unión de comandas.</li>
+                    <li><strong>Monitor de cocina</strong>: comandas pendientes, en preparación y listas, con auto-actualización.</li>
+                    <li><strong>Órdenes de barra y para llevar</strong> con el mismo flujo de cobro y cierre de turno.</li>
+                  </ul>
+                  <div class="group offset-top-30"><a class="btn btn-dark btn-form" href="#demo">Ver la demo</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tour-pane" data-tour-pane="delivery" role="tabpanel">
+              <div class="row row-30 align-items-center">
+                <div class="col-lg-7">
+                  <div class="tour-shot">
+                    <div class="tour-shot-bar"><i></i><i></i><i></i></div>
+                    <a href="images/tour-delivery.png" target="_blank" rel="noopener"><img src="images/tour-delivery.png" alt="Pedidos de delivery activos en Lotus System" loading="lazy" width="1200" height="750"></a>
+                  </div>
+                  <p class="tour-caption">Pedidos activos con su estado: pendiente, confirmada y pendiente de cobro.</p>
+                  <div class="row row-15 offset-top-15">
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-caja.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-caja.png" alt="Registro de tickets y arqueos de caja" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Turnos, pre-cortes y arqueos que cuadran al centavo</p>
+                    </div>
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-reportes.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-reportes.png" alt="Reportes de ventas y recaudación" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Recaudación e histórico de facturas por periodo</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <h4>Pedidos de delivery con repartidores y plataformas</h4>
+                  <p>Registra tus repartidores o las apps que usas (UberEats, PedidosYa) y controla cada pedido hasta cobrarlo.</p>
+                  <ul class="tour-list">
+                    <li><strong>Pedidos por repartidor</strong>: estado en vivo (pendiente, confirmada, entregada) y total del pedido.</li>
+                    <li><strong>Registro de repartidores</strong> con teléfono y foto para asignarlos en segundos.</li>
+                    <li><strong>Pendientes de cobro</strong> y recaudación del día en un solo vistazo.</li>
+                    <li><strong>Registro y tickets</strong> con historial por fecha para reimprimir o corregir.</li>
+                  </ul>
+                  <div class="group offset-top-30"><a class="btn btn-dark btn-form" href="#demo">Ver la demo</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tour-pane" data-tour-pane="tiendas" role="tabpanel">
+              <div class="row row-30 align-items-center">
+                <div class="col-lg-7">
+                  <div class="tour-shot">
+                    <div class="tour-shot-bar"><i></i><i></i><i></i></div>
+                    <a href="images/tour-tienda.png" target="_blank" rel="noopener"><img src="images/tour-tienda.png" alt="Tienda de mostrador con escáner de código de barras" loading="lazy" width="1200" height="750"></a>
+                  </div>
+                  <p class="tour-caption">Tienda: catálogo con escáner de código de barras y órdenes listas para cobrar en caja.</p>
+                  <div class="row row-15 offset-top-15">
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-pos.jpg" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-pos.jpg" alt="Punto de venta de mostrador" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Punto de venta en mostrador con turno abierto</p>
+                    </div>
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-inventario.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-inventario.png" alt="Inventario de insumos con stock mínimo" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Inventario con stock mínimo y alertas de reabastecimiento</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <h4>Venta de mostrador para tiendas y abarrotes</h4>
+                  <p>Escanea el código de barras, cobra y guarda el corte de caja del turno: pensado para vender rápido en el mostrador.</p>
+                  <ul class="tour-list">
+                    <li><strong>Venta con escáner</strong> de código de barras y búsqueda rápida por nombre.</li>
+                    <li><strong>Órdenes en caja</strong>: deja el pedido armado y cobralo cuando el cliente decida.</li>
+                    <li><strong>Turnos y corte de caja</strong> con efectivo esperado y diferencias a la vista.</li>
+                    <li><strong>Inventario</strong> ligado a las ventas para saber qué reponer y cuándo.</li>
+                  </ul>
+                  <div class="group offset-top-30"><a class="btn btn-dark btn-form" href="#demo">Ver la demo</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tour-pane" data-tour-pane="admin" role="tabpanel">
+              <div class="row row-30 align-items-center">
+                <div class="col-lg-7">
+                  <div class="tour-shot">
+                    <div class="tour-shot-bar"><i></i><i></i><i></i></div>
+                    <a href="images/tour-reportes.png" target="_blank" rel="noopener"><img src="images/tour-reportes.png" alt="Panel de ventas y reportes de Lotus System" loading="lazy" width="1200" height="750"></a>
+                  </div>
+                  <p class="tour-caption">Ventas: KPIs del periodo e histórico de facturas con exportación a Excel.</p>
+                  <div class="row row-15 offset-top-15">
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-productos.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-productos.png" alt="Catálogo de productos por categorías" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Catálogo con categorías, fotos y gráfico de productos</p>
+                    </div>
+                    <div class="col-6">
+                      <a class="tour-thumb-link" href="images/tour-caja.png" target="_blank" rel="noopener"><img class="tour-thumb" src="images/tour-caja.png" alt="Gestión de turnos y arqueos de caja" loading="lazy" width="1200" height="750"></a>
+                      <p class="tour-thumb-cap">Turnos, pre-cortes y arqueos por colaborador</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <h4>Control total del negocio desde la administración</h4>
+                  <p>La misma base de datos que usan salón, cocina y mostrador, vista con ojos de dueño o contador.</p>
+                  <ul class="tour-list">
+                    <li><strong>Ventas y reportes</strong> con KPIs, histórico filtrable y exportación a Excel.</li>
+                    <li><strong>Productos e inventario</strong> con categorías, fotos, stock y alertas.</li>
+                    <li><strong>Usuarios ilimitados</strong> con roles y permisos por módulo.</li>
+                    <li><strong>Facturación electrónica</strong>: emisión de DTE sellados por Hacienda, invalidaciones y contingencias.</li>
+                  </ul>
+                  <div class="group offset-top-30"><a class="btn btn-dark btn-form" href="#demo">Ver la demo</a></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <p class="offset-top-30 text-center small-xs">Capturas reales de Lotus System operando con datos de prueba. Los nombres, fotos y montos dependen de tu catálogo.</p>
+        </div>
+        <script>
+          (function () {
+            var tabs = document.querySelectorAll('#tourTabs .tour-tab');
+            var panes = document.querySelectorAll('#tourPanes .tour-pane');
+            Array.prototype.forEach.call(tabs, function (tab) {
+              tab.addEventListener('click', function () {
+                var key = tab.getAttribute('data-tour');
+                Array.prototype.forEach.call(tabs, function (t) {
+                  var on = (t === tab);
+                  t.classList.toggle('active', on);
+                  t.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+                Array.prototype.forEach.call(panes, function (p) {
+                  p.classList.toggle('active', p.getAttribute('data-tour-pane') === key);
+                });
+              });
+            });
+          })();
+        </script>
+      </section>
+
       <section class="section-75 section-md-100 section-lg-120" id="demo">
         <div class="container text-center">
           <h2><span class="small">Lotus System</span>Pruébalo aquí mismo</h2>
-          <p class="offset-top-20">Demo interactiva con datos ficticios: vende en el punto de venta, revisa caja, clientes e inventario, LA VERSION COMPLETA POSEE UNA INTERFAZ COMPLETA CON MODULOS Y SEVICIOS COMPLETO CONFIGURACIONES PERSONALIZADAS.</p>
+          <p class="offset-top-20">Demo interactiva con datos ficticios: vende en el punto de venta, revisa caja, clientes e inventario.</p>
           <div class="offset-top-40" style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;">
             <iframe src="demo-lotus/" title="Demo interactiva Lotus System" style="width:100%;height:640px;border:0;" loading="lazy"></iframe>
           </div>
@@ -304,7 +535,7 @@
       <section class="section-75 section-md-100 section-lg-120" id="modulos" style="background:#f5f5f5;">
         <div class="container">
           <h2><span class="small">Lotus System</span>Módulos disponibles</h2>
-          <p class="offset-top-20">El sistema se vende como un <strong>punto de venta rápido y general para toda empresa</strong>, con un <strong>enfoque secundario para restaurantes</strong> y rubros afines. El plan base lo incluye todo para vender; lo demás se activa como módulo adicional.</p>
+          <p class="offset-top-20">El sistema se vende como un <strong>punto de venta rápido y general para toda empresa</strong>, preparado para las tres áreas de trabajo más comunes: <strong>restaurantes, delivery y tiendas</strong>. El plan base lo incluye todo para vender; lo demás se activa como módulo adicional.</p>
           <h4 class="offset-top-40">Plan base (incluido)</h4>
           <div class="row row-30 offset-top-20 text-left">
             <div class="col-md-6 col-lg-4">
@@ -339,19 +570,27 @@
               <p>Junto a clientes y arqueos: historial filtrable por día, buscador global, KPIs y Excel.</p>
             </div>
           </div>
-          <h4 class="offset-top-40">Restaurantes y rubros afines (adicional)</h4>
+          <h4 class="offset-top-40">Restaurantes, delivery y tiendas (adicional)</h4>
           <div class="row row-30 offset-top-20 text-left">
             <div class="col-md-6 col-lg-4">
               <h5>+ Mesas y comandas</h5>
-              <p>Mapa visual de mesas, comandas por mesa y traslados.</p>
+              <p>Mapa visual de mesas, comandas por mesa, cuenta pedida y traslados.</p>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <h5>+ Cocina</h5>
+              <p>Monitor de comandas en tiempo real: pendientes, en preparación y listas.</p>
             </div>
             <div class="col-md-6 col-lg-4">
               <h5>+ Delivery y repartidores</h5>
-              <p>Pedidos para llevar, cuentas de delivery y control de repartidores.</p>
+              <p>Pedidos por repartidor o plataforma (UberEats, PedidosYa), estados de entrega y cuentas por cobrar.</p>
             </div>
             <div class="col-md-6 col-lg-4">
-              <h5>+ Cocina e Inventario</h5>
-              <p>Monitor de comandas, insumos, stock mínimo y reabastecimiento.</p>
+              <h5>+ Tienda de mostrador</h5>
+              <p>Venta rápida con escáner de código de barras, órdenes en caja y corte por turno.</p>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <h5>+ Inventario</h5>
+              <p>Insumos, stock mínimo y alertas de reabastecimiento ligadas a tus ventas.</p>
             </div>
           </div>
           <h4 class="offset-top-40">Personal (adicional)</h4>
@@ -388,7 +627,7 @@
               <div style="border:2px solid #f9a11b;border-radius:10px;padding:30px;height:100%;">
                 <h4>Módulos adicionales</h4>
                 <p class="h6">Costo adicional</p>
-                <p>Facturación electrónica, invalidaciones, contingencias, inventario, asistencia, planillas, usuarios, bar y cocina. Cotiza solo lo que necesites.</p>
+                <p>Facturación electrónica, invalidaciones, contingencias, mesas, cocina, delivery, tienda de mostrador, inventario, asistencia y planillas. Cotiza solo lo que necesites.</p>
                 <div class="group"><a class="btn btn-primary btn-form" href="contacts.html">Cotizar módulos</a></div>
               </div>
             </div>
@@ -469,6 +708,7 @@
               <div class="col-sm-6 col-md-3 col-xl-2 col-lg-3"><span class="small text-spacing-340 text-white text-uppercase font-weight-bold page-footer-classic-title">Navegación</span>
                 <ul class="list list-marked offset-top-30 list-xs offset-md-top-40">
                   <li><a class="text-white" href="index.html">Inicio</a></li>
+                  <li><a class="text-white" href="#tour">Tour por áreas</a></li>
                   <li><a class="text-white" href="about.html">Nosotros</a></li>
                   <li><a class="text-white" href="contacts.html">Contactos</a></li>
                   <!---<li><a class="text-white" href="#">Cotización</a></li>--->
